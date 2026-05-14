@@ -2,16 +2,18 @@ package com.example;
 
 import java.time.LocalDate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 @SuperBuilder
-@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+
 public class Estudiante extends Persona implements Comparable<Estudiante> {
 
     private String nombreFacultad;
