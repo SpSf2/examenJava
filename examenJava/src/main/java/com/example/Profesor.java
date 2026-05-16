@@ -2,18 +2,19 @@ package com.example;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
+@Data
 @SuperBuilder
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Profesor extends Persona implements Comparable<Profesor> {
 
     private int totalEstudiantes;

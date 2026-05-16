@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,7 +70,7 @@ public class App {
                 Profesor.builder()
                         .nombre("Victor")
                         .primerApellido("Machado")
-                        .segundoApellido("Cáceres")
+                        .segundoApellido("Arteaga")
                         .fechaNacimiento(LocalDate.of(1972, Month.DECEMBER, 24))
                         .totalEstudiantes(125)
                         .dpto(Dpto.INFORMATICA)
@@ -366,6 +368,67 @@ public class App {
         
         // Punto 3.  Agrupar profesores por facultad y por departamento.
         
+        Map<String, Map<Dpto, List<Profesor>>> profesoresPorFacultadYDpto = new LinkedHashMap<>();
+
+        for (Facultad fac : facultades) {
+            for (Profesor prof : fac.getProfesores()) {
+                profesoresPorFacultadYDpto
+                        .computeIfAbsent(fac.getNombre(), k -> new LinkedHashMap<>())
+                        .computeIfAbsent(prof.getDpto(), k -> new ArrayList<>())
+                        .add(prof);
+            }
+        }
+
+        System.out.println("\nProfesores por facultad y departamento:");
+        for (Map.Entry<String, Map<Dpto, List<Profesor>>> entradaFacultad : profesoresPorFacultadYDpto.entrySet()) {
+            System.out.println("\nFacultad: " + entradaFacultad.getKey());
+
+            for (Map.Entry<Dpto, List<Profesor>> entradaDpto : entradaFacultad.getValue().entrySet()) {
+                System.out.println("  Dpto: " + entradaDpto.getKey());
+
+                for (Profesor profe : entradaDpto.getValue()) {
+                    System.out.println("    " + profe);
+                }
+            }
+        }
    
+  /*  4. Recorrer la lista de estudiantes, agrupada por facultad, y mostrar la lista de estudiantes de cada facultad 
+   * ordenada por el total de asignaturas, según el orden natural.*/      
+        
+        Map<String, List<Estudiante>> estudiantesOrdenadosPorFacultad = facultades.stream()
+                .flatMap(facultad -> facultad.getEstudiantes().stream())
+                .collect(Collectors.groupingBy(
+                        estudiante -> estudiante.getNombreFacultad()
+                ));
+
+        System.out.println("\nEstudiantes por facultad ordenados por total de asignaturas:");
+        estudiantesOrdenadosPorFacultad.forEach((nombreFacultad, listaEstudiantes) -> {
+            System.out.println("\nFacultad: " + nombreFacultad);
+            listaEstudiantes.stream()
+                    .sorted()
+                    .forEach(System.out::println);
+        });
+        
+  /* 5. Recorrer la colección que agrupa profesores por facultad y Dpto y mostrar la lista de profesores de cada 
+   * facultad ordenada por salario y antigüedad del profesor, según el orden natural.*/
+        
+        System.out.println("\nProfesores por facultad y departamento ordenados por salario y antigüedad:");
+        for (Map.Entry<String, Map<Dpto, List<Profesor>>> entradaFacultad : profesoresPorFacultadYDpto.entrySet()) {
+            System.out.println("\nFacultad: " + entradaFacultad.getKey());
+
+            for (Map.Entry<Dpto, List<Profesor>> entradaDpto : entradaFacultad.getValue().entrySet()) {
+                System.out.println("  Dpto: " + entradaDpto.getKey());
+
+                entradaDpto.getValue().stream()
+                        .sorted()
+                        .forEach(profesor -> System.out.println("    " + profesor));
+            }
+        }
+        
+        
+        
+        
+        
+        
     }
 }
