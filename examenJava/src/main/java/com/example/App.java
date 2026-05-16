@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class App {
@@ -251,7 +253,7 @@ public class App {
 
         facultades.add(facultad2);
         
-        // FACULTAD DE HUMANIDADES
+        // FACULTAD HUMANIDADES
         
         List<Profesor> profesoresHumanidades = Arrays.asList(  // Esta será la lista de Prof. de Humanidades
 
@@ -425,6 +427,49 @@ public class App {
             }
         }
         
+        
+        // 6.  Mostrar el nombre y los apellidos del profesor que tiene mayor salario de todas las facultades.
+        
+        Profesor profesorMayorSalario = facultades.stream()
+                .flatMap(facultad -> facultad.getProfesores().stream())
+                .max(Comparator.comparing(Profesor::getSalario))
+                .orElse(null);
+
+        if (profesorMayorSalario != null) {
+            System.out.println("\nProfesor con mayor salario:");
+            System.out.println(profesorMayorSalario.getNombre() + " " +
+                    profesorMayorSalario.getPrimerApellido() + " " +
+                    profesorMayorSalario.getSegundoApellido() + " " + "Con un Salario de: "  + 
+                    profesorMayorSalario.getSalario() + " Eurazos");
+        }
+        
+   // 7. Obtener una colección que agrupe estudiantes por total de asignaturas  matriculadas.
+                       
+        Map<Integer, List<Estudiante>> estudiantesPorTotalAsignaturas = facultades.stream()
+                .flatMap(facultad -> facultad.getEstudiantes().stream())
+                .collect(Collectors.groupingBy(
+                        Estudiante::getTotalAsignaturasMatriculadas,
+                        TreeMap::new,
+                        Collectors.toList()
+                ));
+
+        System.out.println("\nEstudiantes agrupados por total de asignaturas matriculadas:");
+        estudiantesPorTotalAsignaturas.forEach((totalAsignaturas, listaEstudiantes) -> {
+            System.out.println("\nTotal asignaturas: " + totalAsignaturas);
+            listaEstudiantes.forEach(System.out::println);
+        });
+        
+      // 8. Crear una colección que permita almacenar estudiantes y profesores en la misma colección.  
+        
+        List<Persona> personas = new ArrayList<>();
+
+        facultades.forEach(facultad -> {
+            personas.addAll(facultad.getEstudiantes());
+            personas.addAll(facultad.getProfesores());
+        });
+
+        System.out.println("\nColección conjunta de estudiantes y profesores:");
+        personas.forEach(System.out::println);
         
         
         
