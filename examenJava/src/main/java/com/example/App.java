@@ -1,8 +1,10 @@
 package com.example;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class App {
     public static void main(String[] args) {
@@ -32,7 +35,7 @@ public class App {
                         .fechaNacimiento(LocalDate.of(1980, Month.MAY, 10))
                         .totalEstudiantes(120)
                         .dpto(Dpto.INFORMATICA)
-                        .fechaInicioFacultad(LocalDate.of(2015, Month.SEPTEMBER, 1))
+                        .fechaInicioFacultad(LocalDate.of(2026, Month.MAY, 29))
                         .salario(new BigDecimal("3200"))
                         .build(),
 
@@ -186,7 +189,7 @@ public class App {
                         .fechaNacimiento(LocalDate.of(1976, Month.NOVEMBER, 30))
                         .totalEstudiantes(88)
                         .dpto(Dpto.QUIMICA)
-                        .fechaInicioFacultad(LocalDate.of(2008, Month.MARCH, 12))
+                        .fechaInicioFacultad(LocalDate.of(2026, Month.MAY, 30))
                         .salario(new BigDecimal("3900"))
                         .build(),
 
@@ -264,7 +267,7 @@ public class App {
                         .fechaNacimiento(LocalDate.of(1977, Month.APRIL, 8))
                         .totalEstudiantes(92)
                         .dpto(Dpto.ECONOMIA)
-                        .fechaInicioFacultad(LocalDate.of(2009, Month.SEPTEMBER, 14))
+                        .fechaInicioFacultad(LocalDate.of(2026, Month.MAY, 27))
                         .salario(new BigDecimal("3500"))
                         .build(),
 
@@ -461,17 +464,77 @@ public class App {
         
       // 8. Crear una colección que permita almacenar estudiantes y profesores en la misma colección.  
         
-        List<Persona> personas = new ArrayList<>();
-
-        facultades.forEach(facultad -> {
-            personas.addAll(facultad.getEstudiantes());
-            personas.addAll(facultad.getProfesores());
-        });
+        List<Persona> personas = facultades.stream()
+                .flatMap(facultad -> Stream.concat(
+                        facultad.getEstudiantes().stream(),
+                        facultad.getProfesores().stream()
+                ))
+                .collect(Collectors.toList());
 
         System.out.println("\nColección conjunta de estudiantes y profesores:");
         personas.forEach(System.out::println);
         
         
+ /*  9. Recorrer la colección creada en el punto anterior y mostrar solamente los profesores que tengan salario
+  *  superior a la media y hayan comenzado a trabajar en la facultad en los últimos 5 días del mes en curso.*/
+        
+        List<Persona> personas1 = facultades.stream()
+                .flatMap(facultad -> Stream.concat(
+                        facultad.getEstudiantes().stream(),
+                        facultad.getProfesores().stream()
+                ))
+                .collect(Collectors.toList());
+
+        BigDecimal mediaSalarios = facultades.stream()
+                .flatMap(facultad -> facultad.getProfesores().stream())
+                .map(Profesor::getSalario)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(BigDecimal.valueOf(
+                        facultades.stream().flatMap(facultad -> facultad.getProfesores().stream()).count()
+                ), 2, RoundingMode.HALF_UP);
+
+        LocalDate hoy = LocalDate.now();
+        YearMonth mesActual = YearMonth.from(hoy);
+        LocalDate inicioUltimos5Dias = mesActual.atEndOfMonth().minusDays(4);
+
+        System.out.println("\nProfesores con salario superior a la media y alta en los últimos 5 días del mes:");
+        personas1.stream()
+                .filter(persona1 -> persona1 instanceof Profesor)
+                .map(persona1 -> (Profesor) persona1)
+                .filter(profesor -> profesor.getSalario().compareTo(mediaSalarios) > 0)
+                .filter(profesor -> !profesor.getFechaInicioFacultad().isBefore(inicioUltimos5Dias)
+                        && !profesor.getFechaInicioFacultad().isAfter(mesActual.atEndOfMonth()))
+                .forEach(profesor -> System.out.println(
+                        profesor.getNombre() + " " +
+                        profesor.getPrimerApellido() + " " +
+                        profesor.getSegundoApellido() + " - " +
+                        profesor.getSalario() + " - " +
+                        profesor.getFechaInicioFacultad()
+                )); 
+        
+ /*  10. Recorrer la lista de facultades y obtener una nueva colección que agrupe
+		 por el total de asignaturas matriculadas por facultad*/
+  
+        Map<String, Map<Integer, List<Estudiante>>> estudiantesPorFacultadYTotalAsignaturas =
+                facultades.stream()
+                        .collect(Collectors.toMap(
+                                Facultad::getNombre,
+                                facultad -> facultad.getEstudiantes().stream()
+                                        .collect(Collectors.groupingBy(
+                                                Estudiante::getTotalAsignaturasMatriculadas,
+                                                TreeMap::new,
+                                                Collectors.toList()
+                                        ))
+                        ));
+
+        System.out.println("\nEstudiantes agrupados por facultad y total de asignaturas:");
+        estudiantesPorFacultadYTotalAsignaturas.forEach((nombreFacultad, mapaTotales) -> {
+            System.out.println("\nFacultad: " + nombreFacultad);
+            mapaTotales.forEach((totalAsignaturas, listaEstudiantes) -> {
+                System.out.println("  Total asignaturas: " + totalAsignaturas);
+                listaEstudiantes.forEach(estudiante -> System.out.println("    " + estudiante));
+            });
+        });
         
         
         
