@@ -8,7 +8,6 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,8 @@ import java.util.stream.Stream;
 
 public class App {
     public static void main(String[] args) {
+    	
+    	System.out.println("**********           GESTION DE MATRICULAS EN UNA UNIVERSIDAD FICTICIA          **********\n");
     	
     	/* 1. Crear una lista de facultades, considerando que un estudiante solo se puede matricular en una facultad 
     	 * y que un profesor solo puede trabajar en una facultad. */
@@ -30,8 +31,8 @@ public class App {
 
                 Profesor.builder()
                         .nombre("Laura")
-                        .primerApellido("Sanchez")
-                        .segundoApellido("Martin")
+                        .primerApellido("Sánchez")
+                        .segundoApellido("Martín")
                         .fechaNacimiento(LocalDate.of(1980, Month.MAY, 10))
                         .totalEstudiantes(120)
                         .dpto(Dpto.INFORMATICA)
@@ -40,9 +41,9 @@ public class App {
                         .build(),
 
                 Profesor.builder()
-                        .nombre("Andres")
-                        .primerApellido("Ruiz")
-                        .segundoApellido("Lopez")
+                        .nombre("Andrés")
+                        .primerApellido("Ruíz")
+                        .segundoApellido("López")
                         .fechaNacimiento(LocalDate.of(1978, Month.MARCH, 22))
                         .totalEstudiantes(95)
                         .dpto(Dpto.INDUSTRIAL)
@@ -52,8 +53,8 @@ public class App {
                         
                 Profesor.builder()
                         .nombre("Carlos")
-                        .primerApellido("Sanchez")
-                        .segundoApellido("Ortiz")
+                        .primerApellido("Sánchez")
+                        .segundoApellido("Ortíz")
                         .fechaNacimiento(LocalDate.of(1980, Month.APRIL, 2))
                         .totalEstudiantes(85)
                         .dpto(Dpto.MECANICA)
@@ -63,8 +64,8 @@ public class App {
                          
                 Profesor.builder()
                         .nombre("José")
-                        .primerApellido("Mtnez")
-                        .segundoApellido("Ruiz")
+                        .primerApellido("Martínez")
+                        .segundoApellido("Ruíz")
                         .fechaNacimiento(LocalDate.of(1981, Month.OCTOBER, 7))
                         .totalEstudiantes(105)
                         .dpto(Dpto.CIVIL)
@@ -73,7 +74,7 @@ public class App {
                         .build(),
                         
                 Profesor.builder()
-                        .nombre("Victor")
+                        .nombre("Víctor")
                         .primerApellido("Machado")
                         .segundoApellido("Arteaga")
                         .fechaNacimiento(LocalDate.of(1972, Month.DECEMBER, 24))
@@ -88,8 +89,8 @@ public class App {
 
                 Estudiante.builder()
                         .nombre("Ana")
-                        .primerApellido("Lopez")
-                        .segundoApellido("Garcia")
+                        .primerApellido("López")
+                        .segundoApellido("García")
                         .fechaNacimiento(LocalDate.of(2002, Month.APRIL, 12))
                         .nombreFacultad("Ingeniería")
                         .totalAsignaturasMatriculadas(8)
@@ -98,8 +99,8 @@ public class App {
 
                 Estudiante.builder()
                         .nombre("Pedro")
-                        .primerApellido("Martin")
-                        .segundoApellido("Sanchez")
+                        .primerApellido("Martín")
+                        .segundoApellido("Sánchez")
                         .fechaNacimiento(LocalDate.of(2001, Month.AUGUST, 20))
                         .nombreFacultad("Ingeniería")
                         .totalAsignaturasMatriculadas(6)
@@ -107,9 +108,9 @@ public class App {
                         .build(),
 
                 Estudiante.builder()
-                        .nombre("Lucia")
+                        .nombre("Lucía")
                         .primerApellido("Navarro")
-                        .segundoApellido("Perez")
+                        .segundoApellido("Pérez")
                         .fechaNacimiento(LocalDate.of(2003, Month.JANUARY, 5))
                         .nombreFacultad("Ingeniería")
                         .totalAsignaturasMatriculadas(10)
@@ -118,7 +119,7 @@ public class App {
                         
                 Estudiante.builder()
                         .nombre("Lisa")
-                        .primerApellido("Ramirez")
+                        .primerApellido("Ramírez")
                         .segundoApellido("Contreras")
                         .fechaNacimiento(LocalDate.of(2005, Month.FEBRUARY, 11))
                         .nombreFacultad("Ingeniería")
@@ -129,7 +130,7 @@ public class App {
                 Estudiante.builder()
                         .nombre("Pablo")
                         .primerApellido("Gil")
-                        .segundoApellido("Hernandez")
+                        .segundoApellido("Hernández")
                         .fechaNacimiento(LocalDate.of(2000, Month.AUGUST, 26))
                         .nombreFacultad("Ingeniería")
                         .totalAsignaturasMatriculadas(6)
@@ -162,8 +163,8 @@ public class App {
 
                 Profesor.builder()
                         .nombre("Marina")
-                        .primerApellido("Suarez")
-                        .segundoApellido("Lopez")
+                        .primerApellido("Suárez")
+                        .segundoApellido("López")
                         .fechaNacimiento(LocalDate.of(1979, Month.JUNE, 18))
                         .totalEstudiantes(90)
                         .dpto(Dpto.MATEMATICAS)
@@ -173,7 +174,7 @@ public class App {
 
                 Profesor.builder()
                         .nombre("Ricardo")
-                        .primerApellido("Mendez")
+                        .primerApellido("Méndez")
                         .segundoApellido("Torres")
                         .fechaNacimiento(LocalDate.of(1983, Month.FEBRUARY, 9))
                         .totalEstudiantes(100)
@@ -196,7 +197,7 @@ public class App {
                 Profesor.builder()
                         .nombre("Daniel")
                         .primerApellido("Ortega")
-                        .segundoApellido("Ruiz")
+                        .segundoApellido("Ruíz")
                         .fechaNacimiento(LocalDate.of(1985, Month.AUGUST, 14))
                         .totalEstudiantes(110)
                         .dpto(Dpto.BIOLOGIA)
@@ -218,7 +219,7 @@ public class App {
                         .build(),
 
                 Estudiante.builder()
-                        .nombre("Raul")
+                        .nombre("Raúl")
                         .primerApellido("Herrera")
                         .segundoApellido("Navarro")
                         .fechaNacimiento(LocalDate.of(2001, Month.JULY, 19))
@@ -229,7 +230,7 @@ public class App {
 
                 Estudiante.builder()
                         .nombre("Irene")
-                        .primerApellido("Dominguez")
+                        .primerApellido("Domínguez")
                         .segundoApellido("Santos")
                         .fechaNacimiento(LocalDate.of(2003, Month.JANUARY, 27))
                         .nombreFacultad("Ciencias")
@@ -238,7 +239,7 @@ public class App {
                         .build(),
 
                 Estudiante.builder()
-                        .nombre("Tomas")
+                        .nombre("Tomás")
                         .primerApellido("Prieto")
                         .segundoApellido("Lara")
                         .fechaNacimiento(LocalDate.of(2000, Month.DECEMBER, 10))
@@ -261,7 +262,7 @@ public class App {
         List<Profesor> profesoresHumanidades = Arrays.asList(  // Esta será la lista de Prof. de Humanidades
 
                 Profesor.builder()
-                        .nombre("Beatriz")
+                        .nombre("Beatríz")
                         .primerApellido("Romero")
                         .segundoApellido("Santos")
                         .fechaNacimiento(LocalDate.of(1977, Month.APRIL, 8))
@@ -310,7 +311,7 @@ public class App {
                 Estudiante.builder()
                         .nombre("Nuria")
                         .primerApellido("Campos")
-                        .segundoApellido("Lopez")
+                        .segundoApellido("Vaca")
                         .fechaNacimiento(LocalDate.of(2002, Month.FEBRUARY, 17))
                         .nombreFacultad("Humanidades")
                         .totalAsignaturasMatriculadas(7)
@@ -318,9 +319,9 @@ public class App {
                         .build(),
 
                 Estudiante.builder()
-                        .nombre("Adrian")
-                        .primerApellido("Reyes")
-                        .segundoApellido("Martinez")
+                        .nombre("Adrián")
+                        .primerApellido("Réyes")
+                        .segundoApellido("Martínez")
                         .fechaNacimiento(LocalDate.of(2001, Month.JUNE, 9))
                         .nombreFacultad("Humanidades")
                         .totalAsignaturasMatriculadas(6)
@@ -338,7 +339,7 @@ public class App {
                         .build(),
 
                 Estudiante.builder()
-                        .nombre("Hector")
+                        .nombre("Héctor")
                         .primerApellido("Medina")
                         .segundoApellido("Ortega")
                         .fechaNacimiento(LocalDate.of(2000, Month.NOVEMBER, 4))
@@ -442,7 +443,7 @@ public class App {
             System.out.println("\nProfesor con mayor salario:");
             System.out.println(profesorMayorSalario.getNombre() + " " +
                     profesorMayorSalario.getPrimerApellido() + " " +
-                    profesorMayorSalario.getSegundoApellido() + " " + "Con un Salario de: "  + 
+                    profesorMayorSalario.getSegundoApellido() + " " + ", con un Salario de: "  + 
                     profesorMayorSalario.getSalario() + " Eurazos");
         }
         
@@ -472,7 +473,23 @@ public class App {
                 .collect(Collectors.toList());
 
         System.out.println("\nColección conjunta de estudiantes y profesores:");
-        personas.forEach(System.out::println);
+        personas.forEach(persona -> {
+            if (persona instanceof Estudiante estudiante) {
+                System.out.println("Estudiante: " +
+                        estudiante.getNombre() + " " +
+                        estudiante.getPrimerApellido() + " " +
+                        estudiante.getSegundoApellido() +
+                        " | Facultad: " + estudiante.getNombreFacultad() +
+                        " | Asignaturas: " + estudiante.getTotalAsignaturasMatriculadas());
+            } else if (persona instanceof Profesor profesor) {
+                System.out.println("Profesor: " +
+                        profesor.getNombre() + " " +
+                        profesor.getPrimerApellido() + " " +
+                        profesor.getSegundoApellido() +
+                        " | Dpto: " + profesor.getDpto() +
+                        " | Salario: " + profesor.getSalario());
+            }
+        });
         
         
  /*  9. Recorrer la colección creada en el punto anterior y mostrar solamente los profesores que tengan salario
@@ -505,12 +522,12 @@ public class App {
                 .filter(profesor -> !profesor.getFechaInicioFacultad().isBefore(inicioUltimos5Dias)
                         && !profesor.getFechaInicioFacultad().isAfter(mesActual.atEndOfMonth()))
                 .forEach(profesor -> System.out.println(
-                        profesor.getNombre() + " " +
-                        profesor.getPrimerApellido() + " " +
-                        profesor.getSegundoApellido() + " - " +
-                        profesor.getSalario() + " - " +
-                        profesor.getFechaInicioFacultad()
-                )); 
+                        profesor.getNombre() + " "
+                        + profesor.getPrimerApellido() + " "
+                        + profesor.getSegundoApellido()
+                        + " | Salario: " + profesor.getSalario()
+                        + " | Inicio: " + profesor.getFechaInicioFacultad()
+                ));
         
  /*  10. Recorrer la lista de facultades y obtener una nueva colección que agrupe
 		 por el total de asignaturas matriculadas por facultad*/

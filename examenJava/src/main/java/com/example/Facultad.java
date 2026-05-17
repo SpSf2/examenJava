@@ -1,7 +1,6 @@
 package com.example;
 
 import java.util.List;
-
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +19,8 @@ public class Facultad {
 
     @Override
     public String toString() {
-        return "Facultad [nombre=" + nombre + ", profesores=" + profesores + ", estudiantes=" + estudiantes + "]";
+        return "Facultad: " + nombre
+                + " | Profesores: " + profesores.size()
+                + " | Estudiantes: " + estudiantes.size();
     }
 }

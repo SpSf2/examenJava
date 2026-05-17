@@ -18,10 +18,9 @@ public class Persona {
     private String segundoApellido;
     private LocalDate fechaNacimiento;
 
-        @Override
-        public String toString() {
-            return "Persona [nombre=" + nombre + ", primerApellido=" + primerApellido
-                    + ", segundoApellido=" + segundoApellido + ", fechaNacimiento=" + fechaNacimiento + "]";
-        
+    @Override
+    public String toString() {
+        return nombre + " " + primerApellido + " " + segundoApellido
+                + " | Nacimiento: " + fechaNacimiento;
     }
 }

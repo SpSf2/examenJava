@@ -6,14 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @SuperBuilder
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Profesor extends Persona implements Comparable<Profesor> {
 
@@ -31,5 +29,12 @@ public class Profesor extends Persona implements Comparable<Profesor> {
         }
 
         return this.fechaInicioFacultad.compareTo(otro.fechaInicioFacultad);
+    }
+    @Override
+    public String toString() {
+        return getNombre() + " " + getPrimerApellido() + " " + getSegundoApellido()
+                + " | Dpto: " + dpto
+                + " | Salario: " + salario
+                + " | Inicio: " + fechaInicioFacultad;
     }
 }

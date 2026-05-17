@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor
@@ -14,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
 
 public class Estudiante extends Persona implements Comparable<Estudiante> {
 
@@ -25,5 +23,13 @@ public class Estudiante extends Persona implements Comparable<Estudiante> {
     @Override
     public int compareTo(Estudiante otro) {
         return Integer.compare(this.totalAsignaturasMatriculadas, otro.totalAsignaturasMatriculadas);
+    }
+    
+    @Override
+    public String toString() {
+        return getNombre() + " " + getPrimerApellido() + " " + getSegundoApellido()
+                + " | Facultad: " + nombreFacultad
+                + " | Asignaturas: " + totalAsignaturasMatriculadas
+                + " | Alta: " + fechaAltaFacultad;
     }
 }
