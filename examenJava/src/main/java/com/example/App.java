@@ -12,8 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import static java.util.stream.Collectors.*;
 
 public class App {
     public static void main(String[] args) {
@@ -364,7 +364,7 @@ public class App {
 
         Map<String, List<Estudiante>> estudiantesPorFacultad = facultades.stream()
                 .flatMap(facultad -> facultad.getEstudiantes().stream())
-                .collect(Collectors.groupingBy(Estudiante::getNombreFacultad));
+                .collect(groupingBy(Estudiante::getNombreFacultad));
 
         System.out.println("\nEstudiantes por facultad:");
         estudiantesPorFacultad.forEach((facultad, listaEstudiantes) -> {
@@ -403,7 +403,7 @@ public class App {
         
         Map<String, List<Estudiante>> estudiantesOrdenadosPorFacultad = facultades.stream()
                 .flatMap(facultad -> facultad.getEstudiantes().stream())
-                .collect(Collectors.groupingBy(
+                .collect(groupingBy(
                         estudiante -> estudiante.getNombreFacultad()
                 ));
 
@@ -451,10 +451,10 @@ public class App {
                        
         Map<Integer, List<Estudiante>> estudiantesPorTotalAsignaturas = facultades.stream()
                 .flatMap(facultad -> facultad.getEstudiantes().stream())
-                .collect(Collectors.groupingBy(
+                .collect(groupingBy(
                         Estudiante::getTotalAsignaturasMatriculadas,
                         TreeMap::new,
-                        Collectors.toList()
+                        toList()
                 ));
 
         System.out.println("\nEstudiantes agrupados por total de asignaturas matriculadas:");
@@ -464,13 +464,14 @@ public class App {
         });
         
       // 8. Crear una colección que permita almacenar estudiantes y profesores en la misma colección.  
-        
+      /* AQUI HAY UN ERROR PORQUE EN GENERECIDAD PARA QUE NO HAYA CONFLICTOS SE DEBE COLOCAR List<? super Persona> 
+       * Revisar " GENERECIDAD "  */
         List<Persona> personas = facultades.stream()
                 .flatMap(facultad -> Stream.concat(
                         facultad.getEstudiantes().stream(),
                         facultad.getProfesores().stream()
                 ))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         System.out.println("\nColección conjunta de estudiantes y profesores:");
         personas.forEach(persona -> {
@@ -491,7 +492,7 @@ public class App {
             }
         });
         
-        
+      
  /*  9. Recorrer la colección creada en el punto anterior y mostrar solamente los profesores que tengan salario
   *  superior a la media y hayan comenzado a trabajar en la facultad en los últimos 5 días del mes en curso.*/
         
@@ -500,7 +501,7 @@ public class App {
                         facultad.getEstudiantes().stream(),
                         facultad.getProfesores().stream()
                 ))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         BigDecimal mediaSalarios = facultades.stream()
                 .flatMap(facultad -> facultad.getProfesores().stream())
@@ -528,19 +529,20 @@ public class App {
                         + " | Salario: " + profesor.getSalario()
                         + " | Inicio: " + profesor.getFechaInicioFacultad()
                 ));
-        
+    
+       
  /*  10. Recorrer la lista de facultades y obtener una nueva colección que agrupe
 		 por el total de asignaturas matriculadas por facultad*/
   
         Map<String, Map<Integer, List<Estudiante>>> estudiantesPorFacultadYTotalAsignaturas =
                 facultades.stream()
-                        .collect(Collectors.toMap(
+                        .collect(toMap(
                                 Facultad::getNombre,
                                 facultad -> facultad.getEstudiantes().stream()
-                                        .collect(Collectors.groupingBy(
+                                        .collect(groupingBy(
                                                 Estudiante::getTotalAsignaturasMatriculadas,
                                                 TreeMap::new,
-                                                Collectors.toList()
+                                                toList()
                                         ))
                         ));
 
@@ -550,10 +552,36 @@ public class App {
             mapaTotales.forEach((totalAsignaturas, listaEstudiantes) -> {
                 System.out.println("  Total asignaturas: " + totalAsignaturas);
                 listaEstudiantes.forEach(estudiante -> System.out.println("    " + estudiante));
+           
             });
         });
         
-        
-        
-    }
+       
+		System.out.println("---------- Solucion al Punto 10 profesor------------- ");
+
+		Map<Integer, List<Facultad>> facultadesPorTotalAsignaturas;
+
+		facultadesPorTotalAsignaturas = facultades.stream().collect(
+				groupingBy(f -> f.getEstudiantes().stream().mapToInt(e -> e.getTotalAsignaturasMatriculadas()).sum()));
+
+		facultadesPorTotalAsignaturas.entrySet().forEach(entry -> {
+
+			System.out.println("Con un total de asignaturas de: " + entry.getKey());
+
+			System.out.println("Estan las facultades siguientes: ");
+
+			entry.getValue().forEach(System.out::println);
+		});
+   
+		/* impresión de rodrigo: 			Resumen de la regla de oro en Java
+Map.forEach((k, v) -> ...) ➡️ Sí acepta dos parámetros (Clave, Valor).
+Stream.forEach(e -> ...) ➡️ Solo acepta un parámetro (el objeto en sí).
+
+		 * ejercicio10.forEach((totalAsignaturas, facultades) -> {
+			System.out.println("Total de asignaturas matriculadas: " + totalAsignaturas);
+			facultades.forEach(f -> System.out.println("\t" + f.getNombreFacultad()));
+		});
+		 */
+		
+	}
 }
